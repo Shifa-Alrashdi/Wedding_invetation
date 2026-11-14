@@ -7,23 +7,23 @@
 <meta name="description" content="يسعدنا تشريفكم حفل زفاف ابنتنا، نرجو تأكيد الحضور">
 <meta property="og:title" content="دعوة حفل زفاف 🤍">
 <meta property="og:description" content="يسعدنا تشريفكم، نرجو تأكيد الحضور">
-<meta name="theme-color" content="#f3eef6">
+<meta name="theme-color" content="#fbf1e7">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f3eef6;
-    --card: #fdfbfe;
-    --ink: #3b2d47;
-    --muted: #85759a;
-    --gold: #7d5a9b;
-    --gold-soft: #e2d6ec;
-    --blush: #b9a0cf;
-    --yes: #7d5a9b;
-    --no: #a77f9c;
-    --line: #e6dcee;
-    --tint: #f6f1f9;
+    --bg: #fbf1e7;
+    --card: #fdf7f0;
+    --ink: #3f342c;
+    --muted: #8d7d70;
+    --gold: #a2876b;
+    --gold-soft: #e8dccd;
+    --blush: #d3c0aa;
+    --yes: #a2876b;
+    --no: #a8968a;
+    --line: #efdfcf;
+    --tint: #f6eadd;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; }
@@ -45,7 +45,7 @@
     padding: 36px 24px 28px;
     text-align: center;
     position: relative;
-    box-shadow: 0 10px 40px -20px rgba(90, 60, 120, .35);
+    box-shadow: 0 10px 40px -20px rgba(120, 90, 60, .3);
   }
   .card::before {
     content: "";
@@ -58,7 +58,7 @@
     position: relative; aspect-ratio: 677 / 1207; container-type: inline-size;
     background: #fbf1e7 url("assets/frame.jpg") center / 100% 100% no-repeat;
     border-radius: 22px; overflow: hidden;
-    box-shadow: 0 14px 44px -22px rgba(90, 60, 120, .45);
+    box-shadow: 0 14px 44px -22px rgba(120, 90, 60, .4);
   }
   .invite .inner {
     position: absolute; top: 23%; bottom: 15%; left: 21%; right: 21%;
@@ -125,7 +125,7 @@
     border: 1px solid var(--line); background: #fff; color: var(--ink);
     outline: none;
   }
-  input[type=text]:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(125, 90, 155, .18); }
+  input[type=text]:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(162, 135, 107, .18); }
 
   .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0 0; }
   .choice {
@@ -235,7 +235,7 @@
     </div>
 
     <div class="done" id="doneView">
-      <div class="big" id="doneEmoji">💜</div>
+      <div class="big" id="doneEmoji">🤍</div>
       <h3 id="doneTitle">شكراً لكِ</h3>
       <p id="doneText"></p>
       <button class="link" id="again" type="button">تعديل الرد</button>
@@ -316,7 +316,7 @@ function showDone(c, n) {
   $("formView").hidden = true;
   $("doneView").classList.add("show");
   if (c === "yes") {
-    $("doneEmoji").textContent = "💜";
+    $("doneEmoji").textContent = "🤍";
     $("doneTitle").textContent = "بانتظاركم";
     $("doneText").textContent = CONFIG.allowCount ? `تم تأكيد حضور ${ar(n)} ${n > 2 ? "أشخاص" : n === 2 ? "شخصين" : "شخص"}، يسعدنا وجودكم` : "تم تأكيد حضوركم، يسعدنا وجودكم";
   } else {
