@@ -142,6 +142,8 @@
   }
   .choice.yes[aria-pressed=true] { background: var(--yes); border-color: var(--yes); color: #fff; }
   .choice.no[aria-pressed=true] { background: var(--no); border-color: var(--no); color: #fff; }
+  .choice.maybe[aria-pressed=true] { background: var(--blush); border-color: var(--blush); color: var(--ink); }
+  .choice.yes { grid-column: 1 / -1; }
 
   .count { margin-top: 16px; display: none; }
   .count.show { display: block; }
@@ -224,6 +226,7 @@
 
       <div class="choices" role="group" aria-label="الحضور">
         <button type="button" class="choice yes" aria-pressed="false" data-v="yes">بحضر بإذن الله</button>
+        <button type="button" class="choice maybe" aria-pressed="false" data-v="maybe">ربما 🤔</button>
         <button type="button" class="choice no" aria-pressed="false" data-v="no">أعتذر</button>
       </div>
 
@@ -310,7 +313,7 @@ let choice = null, count = 1;
 document.querySelectorAll(".choice").forEach(b => b.addEventListener("click", () => {
   choice = b.dataset.v;
   document.querySelectorAll(".choice").forEach(x => x.setAttribute("aria-pressed", x === b));
-  $("countBox").classList.toggle("show", choice === "yes" && CONFIG.allowCount);
+  $("countBox").classList.toggle("show", choice !== "no" && CONFIG.allowCount);
   $("err").textContent = "";
 }));
 const setCount = n => { count = Math.min(CONFIG.maxCount, Math.max(1, n)); $("countOut").textContent = ar(count); };
@@ -325,6 +328,10 @@ function showDone(c, n) {
     $("doneEmoji").textContent = "🤍";
     $("doneTitle").textContent = "بانتظاركم";
     $("doneText").textContent = CONFIG.allowCount ? `تم تأكيد حضور ${ar(n)} ${n > 2 ? "أشخاص" : n === 2 ? "شخصين" : "شخص"}، يسعدنا وجودكم` : "تم تأكيد حضوركم، يسعدنا وجودكم";
+  } else if (c === "maybe") {
+    $("doneEmoji").textContent = "🌿";
+    $("doneTitle").textContent = "نتمنى نشوفكم";
+    $("doneText").textContent = "شكراً لكم، وإذا تأكدتم تقدرون تفتحون الرابط وتعدلون ردكم";
   } else {
     $("doneEmoji").textContent = "🌸";
     $("doneTitle").textContent = "نتفهم ذلك";
@@ -343,15 +350,15 @@ $("again").onclick = () => { $("doneView").classList.remove("show"); $("formView
 $("submit").onclick = async () => {
   const name = $("name").value.trim();
   if (!name) { $("err").textContent = "فضلاً اكتبي الاسم"; $("name").focus(); return; }
-  if (!choice) { $("err").textContent = "فضلاً اختاري: بحضر أو أعتذر"; return; }
-  const n = choice === "yes" ? (CONFIG.allowCount ? count : 1) : 0;
+  if (!choice) { $("err").textContent = "فضلاً اختاري: بحضر أو ربما أو أعتذر"; return; }
+  const n = choice === "no" ? 0 : (CONFIG.allowCount ? count : 1);
 
   $("submit").disabled = true; $("submit").textContent = "جاري الإرسال...";
   try {
     if (CONFIG.scriptUrl) {
       await fetch(CONFIG.scriptUrl, {
         method: "POST", mode: "no-cors",
-        body: new URLSearchParams({ name, status: choice === "yes" ? "حاضر" : "معتذر", count: n })
+        body: new URLSearchParams({ name, status: { yes: "حاضر", maybe: "ربما", no: "معتذر" }[choice], count: n })
       });
     } else {
       await new Promise(r => setTimeout(r, 600)); // sample mode

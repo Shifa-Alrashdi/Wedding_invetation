@@ -13,8 +13,8 @@ function doPost(e) {
 
     const p = e.parameter || {};
     const name = String(p.name || '').trim().slice(0, 100);
-    const status = p.status === 'حاضر' ? 'حاضر' : 'معتذر';
-    const count = status === 'حاضر' ? Math.max(1, Math.min(20, parseInt(p.count, 10) || 1)) : 0;
+    const status = ['حاضر', 'ربما', 'معتذر'].indexOf(p.status) >= 0 ? p.status : 'معتذر';
+    const count = status !== 'معتذر' ? Math.max(1, Math.min(20, parseInt(p.count, 10) || 1)) : 0;
     if (!name) return ContentService.createTextOutput('missing name');
 
     const row = [name, status, count, new Date()];
@@ -53,13 +53,15 @@ function getOrCreateSheets_(ss) {
   if (!ss.getSheetByName('الملخص')) {
     const s = ss.insertSheet('الملخص', 0);
     s.setRightToLeft(true);
-    s.getRange('A1:B4').setValues([
-      ['مجموع الحاضرين (أشخاص)', "=SUM('الردود'!C2:C)"],
+    s.getRange('A1:B6').setValues([
+      ['مجموع الحاضرين المؤكدين (أشخاص)', "=SUMIF('الردود'!B2:B,\"حاضر\",'الردود'!C2:C)"],
+      ['مجموع \"ربما\" (أشخاص)', "=SUMIF('الردود'!B2:B,\"ربما\",'الردود'!C2:C)"],
       ['عدد الردود بالحضور', "=COUNTIF('الردود'!B2:B,\"حاضر\")"],
+      ['عدد ردود ربما', "=COUNTIF('الردود'!B2:B,\"ربما\")"],
       ['عدد المعتذرين', "=COUNTIF('الردود'!B2:B,\"معتذر\")"],
       ['إجمالي الردود', "=COUNTA('الردود'!A2:A)"]
     ]);
-    s.getRange('A1:A4').setFontWeight('bold');
+    s.getRange('A1:A6').setFontWeight('bold');
     s.getRange('B1').setFontSize(18).setFontWeight('bold');
     s.autoResizeColumn(1);
   }
