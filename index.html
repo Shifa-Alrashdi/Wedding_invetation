@@ -7,22 +7,23 @@
 <meta name="description" content="يسعدنا تشريفكم حفل زفاف ابنتنا، نرجو تأكيد الحضور">
 <meta property="og:title" content="دعوة حفل زفاف 🤍">
 <meta property="og:description" content="يسعدنا تشريفكم، نرجو تأكيد الحضور">
-<meta name="theme-color" content="#f8f3ec">
+<meta name="theme-color" content="#f3eef6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f8f3ec;
-    --card: #fffdf9;
-    --ink: #3d3229;
-    --muted: #8a7b6d;
-    --gold: #b08d57;
-    --gold-soft: #e9dcc6;
-    --blush: #e8c9c1;
-    --yes: #6f8f6a;
-    --no: #b5715f;
-    --line: #eadfce;
+    --bg: #f3eef6;
+    --card: #fdfbfe;
+    --ink: #3b2d47;
+    --muted: #85759a;
+    --gold: #7d5a9b;
+    --gold-soft: #e2d6ec;
+    --blush: #b9a0cf;
+    --yes: #7d5a9b;
+    --no: #a77f9c;
+    --line: #e6dcee;
+    --tint: #f6f1f9;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; }
@@ -34,8 +35,8 @@
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     background-image:
-      radial-gradient(circle at 15% 0%, #f3e6dc 0, transparent 45%),
-      radial-gradient(circle at 100% 100%, #efe3d2 0, transparent 50%);
+      radial-gradient(circle at 15% 0%, #e9def1 0, transparent 45%),
+      radial-gradient(circle at 100% 100%, #ece3f2 0, transparent 50%);
     min-height: 100vh;
   }
   .wrap { max-width: 460px; margin: 0 auto; padding: 28px 16px 48px; }
@@ -47,7 +48,7 @@
     padding: 36px 24px 28px;
     text-align: center;
     position: relative;
-    box-shadow: 0 10px 40px -20px rgba(120, 90, 60, .35);
+    box-shadow: 0 10px 40px -20px rgba(90, 60, 120, .35);
   }
   .card::before {
     content: "";
@@ -56,6 +57,27 @@
     border-radius: 20px;
     pointer-events: none;
   }
+  .invite {
+    position: relative; aspect-ratio: 677 / 1207; container-type: inline-size;
+    background: #fbf3ee url("assets/frame.jpg") center / 100% 100% no-repeat;
+    border-radius: 22px; overflow: hidden;
+    box-shadow: 0 14px 44px -22px rgba(90, 60, 120, .45);
+  }
+  .invite .inner {
+    position: absolute; top: 23%; bottom: 15%; left: 21%; right: 21%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; gap: .6cqw;
+  }
+  .invite .bismillah { font-size: 4.6cqw; margin: 0 0 2cqw; color: var(--muted); }
+  .invite .hosts { font-size: 4.2cqw; margin: 0; color: var(--gold); font-weight: 500; }
+  .invite .lead { font-size: 4.2cqw; line-height: 1.6; margin: 0 0 2cqw; }
+  .invite .name { font-size: 15cqw; line-height: 1.25; }
+  .invite .amp { font-size: 6cqw; }
+  .invite .groom { font-size: 10cqw; }
+  .invite .divider { margin: 2.5cqw 0; width: 70%; font-size: 3.5cqw; }
+  .invite .when { font-size: 4.6cqw; font-weight: 700; margin: 0; }
+  .invite .small { font-size: 3.7cqw; color: var(--muted); margin: 0; }
+  .invite .where { font-family: "Amiri", serif; font-size: 6cqw; font-weight: 700; color: var(--gold); margin: 3cqw 0 0; line-height: 1.3; }
   .ornament { color: var(--gold); width: 120px; height: auto; display: block; margin: 0 auto; }
   .bismillah { font-family: "Amiri", serif; color: var(--muted); font-size: 18px; margin: 14px 0 4px; }
   .hosts { color: var(--muted); font-size: 15px; margin: 0 0 6px; }
@@ -75,7 +97,7 @@
   .details { display: grid; gap: 10px; text-align: right; }
   .row {
     display: flex; align-items: center; gap: 14px;
-    background: #fbf6ef; border-radius: 16px; padding: 12px 14px;
+    background: var(--tint); border-radius: 16px; padding: 12px 14px;
   }
   .row svg { flex: none; width: 22px; height: 22px; color: var(--gold); }
   .row b { display: block; font-weight: 700; font-size: 16px; }
@@ -89,7 +111,7 @@
   }
 
   .countdown { display: flex; justify-content: center; gap: 10px; margin-top: 22px; direction: rtl; }
-  .cd { min-width: 64px; padding: 8px 4px; border-radius: 14px; background: #fbf6ef; }
+  .cd { min-width: 64px; padding: 8px 4px; border-radius: 14px; background: var(--tint); }
   .cd b { display: block; font-size: 22px; color: var(--ink); line-height: 1.2; font-variant-numeric: tabular-nums; }
   .cd span { font-size: 12px; color: var(--muted); }
 
@@ -106,7 +128,7 @@
     border: 1px solid var(--line); background: #fff; color: var(--ink);
     outline: none;
   }
-  input[type=text]:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(176, 141, 87, .15); }
+  input[type=text]:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(125, 90, 155, .18); }
 
   .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0 0; }
   .choice {
@@ -123,7 +145,7 @@
   .stepper { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 6px; }
   .stepper button {
     width: 46px; height: 46px; border-radius: 12px; border: none;
-    background: #fbf6ef; color: var(--gold); font-size: 24px; font-weight: 700; cursor: pointer;
+    background: var(--tint); color: var(--gold); font-size: 24px; font-weight: 700; cursor: pointer;
   }
   .stepper output { font-size: 20px; font-weight: 700; }
 
@@ -156,52 +178,35 @@
   <div class="sample-banner" id="sampleBanner" hidden>نسخة تجريبية: الردود لا تُحفظ بعد</div>
 
   <!-- Invitation -->
-  <section class="card">
-    <svg class="ornament" viewBox="0 0 120 30" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-      <path d="M2 15h38M80 15h38"/>
-      <path d="M60 4c-6 6-6 16 0 22c6-6 6-16 0-22z"/>
-      <path d="M60 15c-8-8-16-6-18 0c2 6 10 8 18 0zM60 15c8-8 16-6 18 0c-2 6-10 8-18 0z"/>
-      <circle cx="40" cy="15" r="1.6" fill="currentColor"/><circle cx="80" cy="15" r="1.6" fill="currentColor"/>
-    </svg>
-
-    <p class="bismillah">بسم الله الرحمن الرحيم</p>
-    <p class="hosts" id="hosts"></p>
-    <p class="lead">يتشرفون بدعوتكم لحضور حفل زفاف ابنتهم</p>
-
-    <h1 class="name" id="bride"></h1>
-    <div id="groomWrap" hidden>
-      <div class="amp">على</div>
-      <h1 class="name" id="groom" style="font-size:34px"></h1>
+  <section class="invite" aria-label="الدعوة">
+    <div class="inner">
+      <p class="bismillah">بسم الله الرحمن الرحيم</p>
+      <p class="hosts" id="hosts"></p>
+      <p class="lead">يتشرفون بدعوتكم لحضور<br>حفل زفاف ابنتهم</p>
+      <h1 class="name" id="bride"></h1>
+      <div id="groomWrap" hidden>
+        <div class="amp">على</div>
+        <h1 class="name groom" id="groom"></h1>
+      </div>
+      <div class="divider">✦</div>
+      <p class="when" id="dateText"></p>
+      <p class="small" id="dateSub"></p>
+      <p class="when" id="timeText" style="margin-top:1.5cqw"></p>
+      <p class="where" id="venue"></p>
+      <p class="small" id="city"></p>
     </div>
+  </section>
 
-    <div class="divider">✦</div>
-
-    <div class="details">
-      <div class="row">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-        <div><b id="dateText"></b><span id="dateSub"></span></div>
-      </div>
-      <div class="row">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <div><b id="timeText"></b><span>بتوقيت مسقط</span></div>
-      </div>
-      <div class="row">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-        <div><b id="venue"></b><span id="city"></span></div>
-      </div>
-    </div>
-
-    <a class="btn-map" id="mapBtn" target="_blank" rel="noopener">
+  <section class="card" style="margin-top:16px;padding:26px 20px 24px">
+    <a class="btn-map" id="mapBtn" target="_blank" rel="noopener" style="margin-top:0">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-      افتح الموقع في الخرائط
+      افتح موقع القاعة في الخرائط
     </a>
-
     <div class="countdown" id="countdown" aria-label="العد التنازلي">
       <div class="cd"><b id="cdD">0</b><span>يوم</span></div>
       <div class="cd"><b id="cdH">0</b><span>ساعة</span></div>
       <div class="cd"><b id="cdM">0</b><span>دقيقة</span></div>
     </div>
-
     <p class="note" id="notes"></p>
   </section>
 
@@ -215,8 +220,8 @@
       <input type="text" id="name" autocomplete="name" placeholder="اكتبي اسمك هنا">
 
       <div class="choices" role="group" aria-label="الحضور">
-        <button type="button" class="choice yes" aria-pressed="false" data-v="yes">بحضر بإذن الله ✅</button>
-        <button type="button" class="choice no" aria-pressed="false" data-v="no">أعتذر 🤍</button>
+        <button type="button" class="choice yes" aria-pressed="false" data-v="yes">بحضر بإذن الله</button>
+        <button type="button" class="choice no" aria-pressed="false" data-v="no">أعتذر</button>
       </div>
 
       <div class="count" id="countBox">
@@ -233,7 +238,7 @@
     </div>
 
     <div class="done" id="doneView">
-      <div class="big" id="doneEmoji">🤍</div>
+      <div class="big" id="doneEmoji">💜</div>
       <h3 id="doneTitle">شكراً لكِ</h3>
       <p id="doneText"></p>
       <button class="link" id="again" type="button">تعديل الرد</button>
@@ -314,7 +319,7 @@ function showDone(c, n) {
   $("formView").hidden = true;
   $("doneView").classList.add("show");
   if (c === "yes") {
-    $("doneEmoji").textContent = "🤍";
+    $("doneEmoji").textContent = "💜";
     $("doneTitle").textContent = "بانتظاركم";
     $("doneText").textContent = CONFIG.allowCount ? `تم تأكيد حضور ${ar(n)} ${n > 2 ? "أشخاص" : n === 2 ? "شخصين" : "شخص"}، يسعدنا وجودكم` : "تم تأكيد حضوركم، يسعدنا وجودكم";
   } else {
