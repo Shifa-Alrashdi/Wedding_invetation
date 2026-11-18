@@ -186,7 +186,7 @@
     border-radius: 22px; overflow: hidden;
     box-shadow: 0 18px 50px -20px rgba(0,0,0,.6);
   }
-  .rsvp-frame > div { position: absolute; top: 28%; bottom: 14%; left: 22%; right: 22%;
+  .rsvp-frame .frame-inner { position: absolute; top: 25.5%; bottom: 14%; left: 22%; right: 22%;
     display: flex; flex-direction: column; justify-content: center; }
   .rsvp-frame #formView[hidden] { display: none; }
   .rsvp-frame .done.show { display: flex; flex-direction: column; justify-content: center; }
@@ -195,30 +195,31 @@
   .rsvp-frame .sub { margin: 0 0 4cqw; font-size: 3.4cqw; }
   .rsvp-frame .choices { grid-template-columns: repeat(3, 1fr); }
   .rsvp-frame .choice.yes { grid-column: auto; }
-  .rsvp-frame h2 { color: #f6eadb; font-size: 30px; }
+  .rsvp-frame h2 { color: #f6eadb; font-size: 6.6cqw; margin-bottom: 2cqw; line-height: 1.3; }
   .rsvp-frame .sub { color: #d9c2c9; font-size: 13px; margin-bottom: 14px; }
   .rsvp-frame label.lbl { color: #f6eadb; font-size: 3.6cqw; }
   .rsvp-frame input[type=text] {
     background: rgba(255,255,255,.1); border-color: rgba(246,234,219,.4); color: #fff;
-    padding: 2.6cqw 3.4cqw; font-size: 16px; border-radius: 3.4cqw;
+    padding: 2cqw 3.4cqw; font-size: 16px; border-radius: 3.4cqw;
   }
   .rsvp-frame input[type=text]::placeholder { color: #cdb5bf; }
   .rsvp-frame input[type=text]:focus { border-color: #f6eadb; box-shadow: none; }
-  .rsvp-frame .choices { gap: 8px; margin-top: 3cqw; }
+  .rsvp-frame .choices { gap: 2cqw; margin-top: 2.5cqw; }
   .rsvp-frame .choice {
     background: transparent; color: #f6eadb; border-color: rgba(246,234,219,.5);
-    padding: 2.6cqw 1cqw; font-size: 4cqw; border-radius: 3.4cqw;
+    padding: 2cqw 1cqw; font-size: 4cqw; border-radius: 3.4cqw;
   }
   .rsvp-frame .choice.yes[aria-pressed=true] { background: #f6eadb; border-color: #f6eadb; color: #4f3044; }
   .rsvp-frame .choice.maybe[aria-pressed=true] { background: rgba(246,234,219,.35); border-color: #f6eadb; color: #fff; }
   .rsvp-frame .choice.no[aria-pressed=true] { background: rgba(0,0,0,.25); border-color: #cdb5bf; color: #fff; }
-  .rsvp-frame .count { margin-top: 2.5cqw; }
+  .rsvp-frame .count { margin-top: 2cqw; }
   .rsvp-frame label.lbl { margin-bottom: 1cqw; }
   .rsvp-frame .stepper { background: rgba(255,255,255,.08); border-color: rgba(246,234,219,.4); padding: 4px; }
-  .rsvp-frame .stepper button { width: 9cqw; height: 9cqw; background: rgba(246,234,219,.15); color: #f6eadb; font-size: 20px; }
+  .rsvp-frame .stepper button { width: 7.5cqw; height: 7.5cqw; background: rgba(246,234,219,.15); color: #f6eadb; font-size: 20px; }
   .rsvp-frame .stepper output { color: #fff; font-size: 18px; }
-  .rsvp-frame .submit { background: #f6eadb; color: #4f3044; margin-top: 3.5cqw; padding: 2.8cqw; font-size: 4.4cqw; border-radius: 3.4cqw; }
-  .rsvp-frame .err { color: #ffd6d6; font-size: 13px; }
+  .rsvp-frame .submit { background: #f6eadb; color: #4f3044; margin-top: 2.5cqw; padding: 2.2cqw; font-size: 4.2cqw; border-radius: 3.4cqw; }
+  .rsvp-frame .err { color: #ffd6d6; font-size: 3.4cqw; min-height: 0; margin: 1cqw 0 0; }
+  .rsvp-frame .err:empty { display: none; }
   .rsvp-frame .done h3 { color: #f6eadb; }
   .rsvp-frame .done p { color: #e6d3d8; font-size: 15px; }
   .rsvp-frame .done .big { color: #f6eadb; }
@@ -234,17 +235,18 @@
   .extras .cd b { color: #f6eadb; font-family: "Amiri", serif; font-size: 34px; font-weight: 700; }
   .extras .cd span { color: #d9c2c9; font-size: 13px; }
   .extras .note:empty { display: none; }
-  .rsvp-frame .extras { padding: 4cqw 0 0; }
+  .rsvp-frame .extras { padding: 2.5cqw 0 0; margin-top: 3cqw; border-top: 1px solid rgba(246,234,219,.25); }
   .rsvp-frame .extras[hidden] { display: none; }
-  .rsvp-frame .extras .btn-map { font-size: 3.6cqw; padding: 2cqw 4cqw; gap: 1.5cqw; }
-  .rsvp-frame .extras .cd-title { font-size: 4.6cqw; margin: 4cqw 0 1cqw; }
+  .rsvp-frame .extras .btn-map { font-size: 3.4cqw; padding: 1.4cqw 3.6cqw; gap: 1.5cqw; }
+  .rsvp-frame .extras .cd-title { font-size: 3.8cqw; margin: 1.5cqw 0 0; line-height: 1.3; }
   .rsvp-frame .extras .cd { min-width: 0; padding: 0 3.5cqw; }
-  .rsvp-frame .extras .cd b { font-size: 7.5cqw; }
-  .rsvp-frame .extras .cd span { font-size: 3cqw; }
+  .rsvp-frame .extras .cd b { font-size: 5.5cqw; line-height: 1.25; }
+  .rsvp-frame .extras .cd span { font-size: 2.8cqw; line-height: 1.2; }
   .rsvp-frame .done .big { font-size: 6cqw; }
   .rsvp-frame .done h3 { font-size: 7cqw; margin: 2cqw 0 1cqw; }
   .rsvp-frame .done p { font-size: 3.7cqw; line-height: 1.6; }
-  .rsvp-frame .link { margin-top: 3cqw; font-size: 3.4cqw; }
+  .rsvp-frame .done .big { line-height: 1; }
+  .rsvp-frame .link { margin-top: 1.5cqw; font-size: 3.4cqw; }
   footer { text-align: center; color: #e6d3c8; font-size: 13px; margin-top: 18px; }
 </style>
 </head>
@@ -264,6 +266,7 @@
   <!-- RSVP -->
   <div class="rsvp-wrap">
   <section class="rsvp rsvp-frame">
+   <div class="frame-inner">
     <div id="formView">
       <h2>تأكيد الحضور</h2>
       <p class="sub" id="deadline"></p>
@@ -277,7 +280,7 @@
       </div>
 
       <div class="count" id="countBox">
-        <label class="lbl" style="margin-top:4px">عدد الحضور</label>
+        <label class="lbl">عدد الحضور</label>
         <div class="stepper">
           <button type="button" id="plus" aria-label="زيادة">+</button>
           <output id="countOut">1</output>
@@ -293,6 +296,8 @@
       <div class="big" id="doneEmoji">✦</div>
       <h3 id="doneTitle">شكراً لكِ</h3>
       <p id="doneText"></p>
+      <button class="link" id="again" type="button">تعديل الرد</button>
+    </div>
       <div class="extras" id="extras">
         <a class="btn-map" id="mapBtn" target="_blank" rel="noopener" style="margin-top:0">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
@@ -306,8 +311,7 @@
         </div>
         <p class="note" id="notes"></p>
       </div>
-      <button class="link" id="again" type="button">تعديل الرد</button>
-    </div>
+   </div>
   </section>
   </div>
 
@@ -384,7 +388,6 @@ setCount(1);
 function showDone(c, n) {
   $("formView").hidden = true;
   $("doneView").classList.add("show");
-  $("extras").hidden = c === "no";
   if (c === "yes") {
     $("doneEmoji").textContent = "✦";
     $("doneTitle").textContent = "بانتظاركم";
