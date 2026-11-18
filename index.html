@@ -13,23 +13,23 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#fbf1e7">
+<meta name="theme-color" content="#4f3044">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #fbf1e7;
-    --card: #fdf7f0;
-    --ink: #3f342c;
-    --muted: #8d7d70;
-    --gold: #a2876b;
-    --gold-soft: #e8dccd;
-    --blush: #d3c0aa;
-    --yes: #a2876b;
-    --no: #a8968a;
-    --line: #efdfcf;
-    --tint: #f6eadd;
+    --bg: #4f3044;
+    --card: #fbf4ec;
+    --ink: #3b2534;
+    --muted: #8a7180;
+    --gold: #6e4560;
+    --gold-soft: #eadbd9;
+    --blush: #d9c3cd;
+    --yes: #6e4560;
+    --no: #9b8590;
+    --line: #ecdfdc;
+    --tint: #f4e9e6;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; }
@@ -41,6 +41,7 @@
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
+    background-image: radial-gradient(ellipse at 50% 0%, #6a4459 0, transparent 60%);
   }
   .wrap { max-width: 460px; margin: 0 auto; padding: 28px 16px 48px; }
 
@@ -60,6 +61,8 @@
     border-radius: 20px;
     pointer-events: none;
   }
+  .design { display: block; width: 100%; height: auto; border-radius: 22px; box-shadow: 0 18px 50px -20px rgba(0,0,0,.6); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .invite {
     position: relative; aspect-ratio: 677 / 1207; container-type: inline-size;
     background: #fbf1e7 url("assets/frame.jpg") center / 100% 100% no-repeat;
@@ -170,11 +173,11 @@
   .done p { color: var(--muted); margin: 0; }
   .link { background: none; border: none; color: var(--gold); font: inherit; font-size: 14px; text-decoration: underline; cursor: pointer; margin-top: 14px; }
 
-  .sample-banner {
+  .sample-banner { margin-top: 0;
     background: #fff4d6; color: #7a5a12; border: 1px solid #f0dca6;
     border-radius: 12px; font-size: 13px; padding: 8px 12px; margin-bottom: 14px; text-align: center;
   }
-  footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 18px; }
+  footer { text-align: center; color: #e6d3c8; font-size: 13px; margin-top: 18px; }
 </style>
 </head>
 <body>
@@ -183,24 +186,12 @@
   <div class="sample-banner" id="sampleBanner" hidden>نسخة تجريبية: الردود لا تُحفظ بعد</div>
 
   <!-- Invitation -->
-  <section class="invite" aria-label="الدعوة">
-    <div class="inner">
-      <p class="bismillah">بسم الله الرحمن الرحيم</p>
-      <p class="hosts" id="hosts"></p>
-      <p class="lead">يتشرفون بدعوتكم لحضور<br>حفل زفاف ابنتهم</p>
-      <h1 class="name" id="bride"></h1>
-      <div id="groomWrap" hidden>
-        <div class="amp">على</div>
-        <h1 class="name groom" id="groom"></h1>
-      </div>
-      <div class="divider">✦</div>
-      <p class="when" id="dateText"></p>
-      <p class="small" id="dateSub"></p>
-      <p class="when" id="timeText" style="margin-top:1.5cqw"></p>
-      <p class="where" id="venue"></p>
-      <p class="small" id="city"></p>
-    </div>
-  </section>
+  <img class="design" src="assets/invitation.jpg" width="720" height="1280"
+       alt="دعوة حفل زفاف أنس ورفيدة، يوم الأربعاء ٢٣ ديسمبر ٢٠٢٦، قاعة أرينا، الاستقبال الساعة ٨:١٥ مساءً">
+  <div class="sr-only">
+    <p id="hosts"></p><p id="bride"></p><div id="groomWrap"><p id="groom"></p></div>
+    <p id="dateText"></p><p id="dateSub"></p><p id="timeText"></p><p id="venue"></p><p id="city"></p>
+  </div>
 
   <section class="card" style="margin-top:16px;padding:26px 20px 24px">
     <a class="btn-map" id="mapBtn" target="_blank" rel="noopener" style="margin-top:0">
@@ -222,7 +213,7 @@
       <p class="sub" id="deadline"></p>
 
       <label class="lbl" for="name">الاسم</label>
-      <input type="text" id="name" autocomplete="name" placeholder="اكتبي اسمك هنا">
+      <input type="text" id="name" autocomplete="name" placeholder="اكتب اسمك هنا">
 
       <div class="choices" role="group" aria-label="الحضور">
         <button type="button" class="choice yes" aria-pressed="false" data-v="yes">بحضر بإذن الله</button>
@@ -259,15 +250,15 @@
    ✏️ عدّلي المعلومات هنا فقط
    ============================================================ */
 const CONFIG = {
-  hosts: "عائلة ـــــــ",                 // أسماء الداعين
-  bride: "مريم",                         // اسم العروس
-  groom: "",                             // اسم العريس (اتركيه فاضي لإخفائه)
-  dateISO: "2026-12-23T22:00:00+04:00",  // التاريخ والوقت (توقيت عُمان +04:00)
-  venue: "قاعة ـــــــ",                  // اسم القاعة
-  city: "مسقط",                          // المدينة
-  mapUrl: "https://maps.google.com/?q=Muscat", // رابط الموقع من خرائط قوقل
+  hosts: "",                 // أسماء الداعين
+  bride: "رفيدة",                         // اسم العروس
+  groom: "أنس",                          // اسم العريس (اتركيه فاضي لإخفائه)
+  dateISO: "2026-12-23T20:15:00+04:00",  // التاريخ والوقت (توقيت عُمان +04:00)
+  venue: "قاعة أرينا",                  // اسم القاعة
+  city: "",                          // المدينة
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=%D9%82%D8%A7%D8%B9%D8%A9+%D8%A3%D8%B1%D9%8A%D9%86%D8%A7", // رابط الموقع من خرائط قوقل
   deadline: "نرجو التأكيد قبل ١٥ ديسمبر",   // اتركيه فاضي لإخفائه
-  notes: "نعتذر عن اصطحاب الأطفال",        // ملاحظات (اتركيه فاضي لإخفائه)
+  notes: "",        // ملاحظات (اتركيه فاضي لإخفائه)
   allowCount: true,                      // هل الضيفة تختار عدد الحضور؟
   maxCount: 6,                           // أكبر عدد مسموح
   // رابط Google Apps Script (بعد الإعداد). لو فاضي = نسخة تجريبية
