@@ -254,7 +254,6 @@
 <body>
 <div class="wrap">
 
-  <div class="sample-banner" id="sampleBanner" hidden>نسخة تجريبية: الردود لا تُحفظ بعد</div>
 
   <!-- Invitation -->
   <img class="design" src="assets/invitation.jpg" width="720" height="1280"
@@ -357,7 +356,7 @@ $("city").textContent = CONFIG.city;
 $("mapBtn").href = CONFIG.mapUrl;
 $("deadline").textContent = CONFIG.deadline; $("deadline").hidden = !CONFIG.deadline;
 if (CONFIG.notes) $("notes").textContent = "• " + CONFIG.notes + " •"; else $("notes").hidden = true;
-if (!CONFIG.scriptUrl) $("sampleBanner").hidden = false;
+
 
 // Countdown
 function tick() {
