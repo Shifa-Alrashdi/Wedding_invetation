@@ -437,7 +437,18 @@ try {
   if (saved) showDone(saved.c, saved.n);
 } catch (e) {}
 
-$("again").onclick = () => { $("doneView").classList.remove("show"); $("formView").hidden = false; };
+$("again").onclick = () => {
+  // forget the saved answer so a refresh shows the form; prefill what they chose before
+  let prev = null;
+  try { prev = JSON.parse(localStorage.getItem("rsvp") || "null"); localStorage.removeItem("rsvp"); } catch (e) {}
+  if (prev) {
+    if (prev.name) $("name").value = prev.name;
+    const btn = document.querySelector('.choice[data-v="' + prev.c + '"]');
+    if (btn) btn.click();
+    if (prev.n > 0) setCount(prev.n);
+  }
+  $("doneView").classList.remove("show"); $("formView").hidden = false;
+};
 
 
 // One random id per phone, so the same guest editing their answer updates one row
@@ -467,7 +478,7 @@ $("submit").onclick = async () => {
     } else {
       await new Promise(r => setTimeout(r, 600)); // sample mode
     }
-    try { localStorage.setItem("rsvp", JSON.stringify({ c: choice, n })); } catch (e) {}
+    try { localStorage.setItem("rsvp", JSON.stringify({ c: choice, n, name })); } catch (e) {}
     showDone(choice, n);
   } catch (e) {
     $("err").textContent = "صار خطأ في الاتصال، حاولي مرة ثانية";
