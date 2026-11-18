@@ -477,22 +477,18 @@ $("submit").onclick = async () => {
   if (!choice) { $("err").textContent = "فضلاً اختاري: بحضر أو ربما أو أعتذر"; return; }
   const n = choice === "no" ? 0 : (CONFIG.allowCount ? count : 1);
 
-  $("submit").disabled = true; $("submit").textContent = "جاري الإرسال...";
-  try {
-    if (CONFIG.scriptUrl) {
-      await fetch(CONFIG.scriptUrl, {
-        method: "POST", mode: "no-cors",
-        body: new URLSearchParams({ id: guestId(), side: CONFIG.side, name, status: { yes: "حاضر", maybe: "ربما", no: "معتذر" }[choice], count: n })
+  // show the thank-you straight away; save in the background
+  const body = new URLSearchParams({ id: guestId(), side: CONFIG.side || "", name, status: { yes: "حاضر", maybe: "ربما", no: "معتذر" }[choice], count: n });
+  try { localStorage.setItem("rsvp", JSON.stringify({ c: choice, n, name })); } catch (e) {}
+  showDone(choice, n);
+  if (CONFIG.scriptUrl) {
+    fetch(CONFIG.scriptUrl, { method: "POST", mode: "no-cors", keepalive: true, body })
+      .catch(() => {
+        // network failed: bring the form back so they can resend
+        try { localStorage.removeItem("rsvp"); } catch (e) {}
+        $("doneView").classList.remove("show"); $("formView").hidden = false;
+        $("err").textContent = "ما وصل الرد، تأكدي من الإنترنت واضغطي إرسال مرة ثانية";
       });
-    } else {
-      await new Promise(r => setTimeout(r, 600)); // sample mode
-    }
-    try { localStorage.setItem("rsvp", JSON.stringify({ c: choice, n, name })); } catch (e) {}
-    showDone(choice, n);
-  } catch (e) {
-    $("err").textContent = "صار خطأ في الاتصال، حاولي مرة ثانية";
-  } finally {
-    $("submit").disabled = false; $("submit").textContent = "إرسال";
   }
 };
 
@@ -511,7 +507,9 @@ function showPage(n) {
     });
   }
 }
-$("goRsvp").onclick = () => { history.pushState({ p: 2 }, "", "#rsvp"); showPage(2); };
+function warmUp() { if (CONFIG.scriptUrl && !warmUp.done) { warmUp.done = true; fetch(CONFIG.scriptUrl, { mode: "no-cors" }).catch(() => {}); } }
+$("goRsvp").onclick = () => { warmUp(); history.pushState({ p: 2 }, "", "#rsvp"); showPage(2); };
+$("name").addEventListener("focus", warmUp);
 $("backInvite").onclick = () => { if (location.hash === "#rsvp") history.back(); else showPage(1); };
 window.addEventListener("popstate", () => showPage(location.hash === "#rsvp" ? 2 : 1));
 if (location.hash === "#rsvp") showPage(2);
