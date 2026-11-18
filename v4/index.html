@@ -184,7 +184,7 @@
     background: #5e3c50 url("../assets/frame-rsvp3.jpg") center / 100% 100% no-repeat;
     overflow: hidden;
   }
-  .rsvp-frame { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 97%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 97%, transparent 100%); }
+  .rsvp-frame { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%); mask-image: linear-gradient(to bottom, transparent 0, #000 6%); }
   .design { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 5%, #000 97%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 5%, #000 97%, transparent 100%); }
   .rsvp-frame .frame-inner { position: absolute; top: 7%; bottom: 40%; left: 18%; right: 18%;
     display: flex; flex-direction: column; justify-content: center; }
@@ -250,9 +250,9 @@
 
   /* two pages */
   .page[hidden] { display: none; }
+  #page2:not([hidden]) { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; justify-content: flex-end; }
   .page { animation: pageIn .45s ease; }
   @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-  .back-wrap { text-align: center; padding: 18px 16px 28px; }
   #page1 { position: relative; }
   #page1 .design { width: 100%; height: max(100vh, calc(min(100vw, 460px) * 1.7778)); height: max(100dvh, calc(min(100vw, 460px) * 1.7778)); object-fit: cover; object-position: center bottom;
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 4%); mask-image: linear-gradient(to bottom, transparent 0, #000 4%); }
@@ -262,10 +262,9 @@
     background: #f6eadb; color: #4f3044; border: none; border-radius: 999px;
     padding: 7px 26px; cursor: pointer; box-shadow: 0 8px 24px -10px rgba(0,0,0,.5);
   }
-  .back {
-    font: inherit; font-size: 15px; background: none; color: #f6eadb; cursor: pointer;
-    border: 1px solid rgba(246,234,219,.5); border-radius: 999px; padding: 8px 22px;
-  }
+  .back { position: absolute; left: 4%; bottom: 3%; z-index: 3; width: 42px; height: 42px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    background: rgba(246,234,219,.12); color: #f6eadb; border: 1px solid rgba(246,234,219,.5); }
   footer { text-align: center; color: #e6d3c8; font-size: 13px; margin-top: 18px; }
 </style>
 </head>
@@ -338,9 +337,9 @@
         <p class="note" id="notes"></p>
       </div>
    </div>
+   <button class="back" id="backInvite" type="button" aria-label="الرجوع للدعوة"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l6 6-6 6M21 12H4"/></svg></button>
   </section>
   </div>
-    <div class="back-wrap"><button class="back" id="backInvite" type="button">عرض الدعوة</button></div>
   </div>
 
 </div>
