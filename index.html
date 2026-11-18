@@ -177,6 +177,52 @@
     background: #fff4d6; color: #7a5a12; border: 1px solid #f0dca6;
     border-radius: 12px; font-size: 13px; padding: 8px 12px; margin-bottom: 14px; text-align: center;
   }
+
+  /* RSVP inside the arch frame */
+  .rsvp-wrap { container-type: inline-size; margin-top: 16px; }
+  .rsvp-frame {
+    position: relative; aspect-ratio: 720 / 1280; text-align: right; color: #f6eadb;
+    background: #5e3c50 url("assets/frame-rsvp.jpg") center / 100% 100% no-repeat;
+    border-radius: 22px; overflow: hidden;
+    box-shadow: 0 18px 50px -20px rgba(0,0,0,.6);
+  }
+  .rsvp-frame > div { position: absolute; top: 28%; bottom: 14%; left: 22%; right: 22%;
+    display: flex; flex-direction: column; justify-content: center; }
+  .rsvp-frame #formView[hidden] { display: none; }
+  .rsvp-frame .done.show { display: flex; flex-direction: column; justify-content: center; }
+  .rsvp-frame .done:not(.show) { display: none; }
+  .rsvp-frame h2 { font-size: 7.5cqw; line-height: 1.3; }
+  .rsvp-frame .sub { margin: 0 0 4cqw; font-size: 3.4cqw; }
+  .rsvp-frame .choices { grid-template-columns: repeat(3, 1fr); }
+  .rsvp-frame .choice.yes { grid-column: auto; }
+  .rsvp-frame h2 { color: #f6eadb; font-size: 30px; }
+  .rsvp-frame .sub { color: #d9c2c9; font-size: 13px; margin-bottom: 14px; }
+  .rsvp-frame label.lbl { color: #f6eadb; font-size: 3.6cqw; }
+  .rsvp-frame input[type=text] {
+    background: rgba(255,255,255,.1); border-color: rgba(246,234,219,.4); color: #fff;
+    padding: 2.6cqw 3.4cqw; font-size: 16px; border-radius: 3.4cqw;
+  }
+  .rsvp-frame input[type=text]::placeholder { color: #cdb5bf; }
+  .rsvp-frame input[type=text]:focus { border-color: #f6eadb; box-shadow: none; }
+  .rsvp-frame .choices { gap: 8px; margin-top: 3cqw; }
+  .rsvp-frame .choice {
+    background: transparent; color: #f6eadb; border-color: rgba(246,234,219,.5);
+    padding: 2.6cqw 1cqw; font-size: 4cqw; border-radius: 3.4cqw;
+  }
+  .rsvp-frame .choice.yes[aria-pressed=true] { background: #f6eadb; border-color: #f6eadb; color: #4f3044; }
+  .rsvp-frame .choice.maybe[aria-pressed=true] { background: rgba(246,234,219,.35); border-color: #f6eadb; color: #fff; }
+  .rsvp-frame .choice.no[aria-pressed=true] { background: rgba(0,0,0,.25); border-color: #cdb5bf; color: #fff; }
+  .rsvp-frame .count { margin-top: 2.5cqw; }
+  .rsvp-frame label.lbl { margin-bottom: 1cqw; }
+  .rsvp-frame .stepper { background: rgba(255,255,255,.08); border-color: rgba(246,234,219,.4); padding: 4px; }
+  .rsvp-frame .stepper button { width: 9cqw; height: 9cqw; background: rgba(246,234,219,.15); color: #f6eadb; font-size: 20px; }
+  .rsvp-frame .stepper output { color: #fff; font-size: 18px; }
+  .rsvp-frame .submit { background: #f6eadb; color: #4f3044; margin-top: 3.5cqw; padding: 2.8cqw; font-size: 4.4cqw; border-radius: 3.4cqw; }
+  .rsvp-frame .err { color: #ffd6d6; font-size: 13px; }
+  .rsvp-frame .done h3 { color: #f6eadb; }
+  .rsvp-frame .done p { color: #e6d3d8; font-size: 15px; }
+  .rsvp-frame .done .big { color: #f6eadb; }
+  .rsvp-frame .link { color: #f6eadb; }
   footer { text-align: center; color: #e6d3c8; font-size: 13px; margin-top: 18px; }
 </style>
 </head>
@@ -207,22 +253,22 @@
   </section>
 
   <!-- RSVP -->
-  <section class="card rsvp" style="margin-top:16px">
+  <div class="rsvp-wrap">
+  <section class="rsvp rsvp-frame">
     <div id="formView">
       <h2>تأكيد الحضور</h2>
       <p class="sub" id="deadline"></p>
 
-      <label class="lbl" for="name">الاسم</label>
-      <input type="text" id="name" autocomplete="name" placeholder="اكتب اسمك هنا">
+      <input type="text" id="name" autocomplete="name" placeholder="الاسم" aria-label="الاسم">
 
       <div class="choices" role="group" aria-label="الحضور">
-        <button type="button" class="choice yes" aria-pressed="false" data-v="yes">بحضر بإذن الله</button>
+        <button type="button" class="choice yes" aria-pressed="false" data-v="yes">بحضر</button>
         <button type="button" class="choice maybe" aria-pressed="false" data-v="maybe">ربما</button>
         <button type="button" class="choice no" aria-pressed="false" data-v="no">أعتذر</button>
       </div>
 
       <div class="count" id="countBox">
-        <label class="lbl" style="margin-top:4px">عدد الحضور (معك)</label>
+        <label class="lbl" style="margin-top:4px">عدد الحضور</label>
         <div class="stepper">
           <button type="button" id="plus" aria-label="زيادة">+</button>
           <output id="countOut">1</output>
@@ -241,6 +287,7 @@
       <button class="link" id="again" type="button">تعديل الرد</button>
     </div>
   </section>
+  </div>
 
   <footer>بانتظاركم، حضوركم يسعدنا</footer>
 </div>
