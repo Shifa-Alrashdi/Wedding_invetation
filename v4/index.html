@@ -376,6 +376,9 @@ const CONFIG = {
 /* ============================================================ */
 
 const $ = id => document.getElementById(id);
+// each link keeps its own saved answer (bride and groom links don't share)
+const PAGE_KEY = location.pathname.replace(/index\.html$/, "").replace(/\/+$/, "") || "/";
+const RSVP_KEY = "rsvp2:" + PAGE_KEY, GID_KEY = "gid2:" + PAGE_KEY;
 const ar = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
 
 // Fill invitation
@@ -442,14 +445,14 @@ function showDone(c, n) {
 
 // Remember previous answer on this phone
 try {
-  const saved = JSON.parse(localStorage.getItem("rsvp") || "null");
+  const saved = JSON.parse(localStorage.getItem(RSVP_KEY) || "null");
   if (saved) showDone(saved.c, saved.n);
 } catch (e) {}
 
 $("again").onclick = () => {
   // forget the saved answer so a refresh shows the form; prefill what they chose before
   let prev = null;
-  try { prev = JSON.parse(localStorage.getItem("rsvp") || "null"); localStorage.removeItem("rsvp"); } catch (e) {}
+  try { prev = JSON.parse(localStorage.getItem(RSVP_KEY) || "null"); localStorage.removeItem(RSVP_KEY); } catch (e) {}
   if (prev) {
     if (prev.name) $("name").value = prev.name;
     const btn = document.querySelector('.choice[data-v="' + prev.c + '"]');
@@ -463,10 +466,10 @@ $("again").onclick = () => {
 // One random id per phone, so the same guest editing their answer updates one row
 function guestId() {
   let id = null;
-  try { id = localStorage.getItem("gid"); } catch (e) {}
+  try { id = localStorage.getItem(GID_KEY); } catch (e) {}
   if (!id) {
     id = Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
-    try { localStorage.setItem("gid", id); } catch (e) {}
+    try { localStorage.setItem(GID_KEY, id); } catch (e) {}
   }
   return id;
 }
@@ -487,7 +490,7 @@ $("submit").onclick = async () => {
     } else {
       await new Promise(r => setTimeout(r, 600)); // sample mode
     }
-    try { localStorage.setItem("rsvp", JSON.stringify({ c: choice, n, name })); } catch (e) {}
+    try { localStorage.setItem(RSVP_KEY, JSON.stringify({ c: choice, n, name })); } catch (e) {}
     showDone(choice, n);
   } catch (e) {
     $("err").textContent = "صار خطأ في الاتصال، حاولي مرة ثانية";
