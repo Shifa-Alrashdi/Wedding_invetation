@@ -185,7 +185,7 @@
     overflow: hidden;
   }
   .rsvp-frame { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 96%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 96%, transparent 100%); }
-  .design { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 4%, #000 97%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 4%, #000 97%, transparent 100%); }
+  .design { -webkit-mask-image: linear-gradient(to top, transparent 0, #000 3%); mask-image: linear-gradient(to top, transparent 0, #000 3%); }
   .rsvp-frame .frame-inner { position: absolute; top: 23.5%; bottom: 12%; left: 22%; right: 22%;
     display: flex; flex-direction: column; justify-content: center; }
   .rsvp-frame #formView[hidden] { display: none; }
@@ -434,6 +434,14 @@ $("submit").onclick = async () => {
     $("submit").disabled = false; $("submit").textContent = "إرسال";
   }
 };
+
+// On phones, start slightly scrolled so the design sits under the status bar
+(function () {
+  try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (e) {}
+  if (!matchMedia("(pointer: coarse)").matches) return;
+  const nudge = () => { if (window.scrollY < 5) window.scrollTo(0, 50); };
+  window.addEventListener("load", () => { nudge(); setTimeout(nudge, 150); });
+})();
 </script>
 </body>
 </html>
