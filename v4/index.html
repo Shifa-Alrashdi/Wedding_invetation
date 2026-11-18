@@ -186,7 +186,7 @@
   }
   .rsvp-frame { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 95%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 95%, transparent 100%); }
   .design { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 5%, #000 97%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 5%, #000 97%, transparent 100%); }
-  .rsvp-frame .frame-inner { position: absolute; top: 7%; bottom: 40%; left: 18%; right: 18%;
+  .rsvp-frame .frame-inner { position: absolute; top: 6%; bottom: 40.5%; left: 18%; right: 18%;
     display: flex; flex-direction: column; justify-content: center; }
   .rsvp-frame #formView[hidden] { display: none; }
   .rsvp-frame .done.show { display: flex; flex-direction: column; justify-content: center; }
@@ -266,6 +266,15 @@
     display: flex; align-items: center; justify-content: center; cursor: pointer;
     background: none; color: #f6eadb; border: none; padding: 0; }
   .back svg { width: 26px; height: 26px; filter: drop-shadow(0 1px 3px rgba(0,0,0,.35)); }
+
+  #page2 .rsvp-frame { -webkit-mask-image: linear-gradient(to bottom, #000 95%, transparent 100%); mask-image: linear-gradient(to bottom, #000 95%, transparent 100%); }
+  /* more breathing room between controls */
+  .rsvp-frame h2 { margin-bottom: 3cqw; }
+  .rsvp-frame .choices { gap: 3cqw; margin-top: 3cqw; }
+  .rsvp-frame .count { margin-top: 2.5cqw; }
+  .rsvp-frame .submit { margin-top: 3.5cqw; }
+  .rsvp-frame .extras { margin-top: 4.5cqw; padding-top: 3.5cqw; }
+  .rsvp-frame .extras .cd-title { margin: 2.5cqw 0 2cqw; }
   footer { text-align: center; color: #e6d3c8; font-size: 13px; margin-top: 18px; }
 </style>
 </head>
