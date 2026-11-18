@@ -409,6 +409,18 @@ try {
 
 $("again").onclick = () => { $("doneView").classList.remove("show"); $("formView").hidden = false; };
 
+
+// One random id per phone, so the same guest editing their answer updates one row
+function guestId() {
+  let id = null;
+  try { id = localStorage.getItem("gid"); } catch (e) {}
+  if (!id) {
+    id = Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+    try { localStorage.setItem("gid", id); } catch (e) {}
+  }
+  return id;
+}
+
 $("submit").onclick = async () => {
   const name = $("name").value.trim();
   if (!name) { $("err").textContent = "فضلاً اكتبي الاسم"; $("name").focus(); return; }
@@ -420,7 +432,7 @@ $("submit").onclick = async () => {
     if (CONFIG.scriptUrl) {
       await fetch(CONFIG.scriptUrl, {
         method: "POST", mode: "no-cors",
-        body: new URLSearchParams({ name, status: { yes: "حاضر", maybe: "ربما", no: "معتذر" }[choice], count: n })
+        body: new URLSearchParams({ id: guestId(), name, status: { yes: "حاضر", maybe: "ربما", no: "معتذر" }[choice], count: n })
       });
     } else {
       await new Promise(r => setTimeout(r, 600)); // sample mode

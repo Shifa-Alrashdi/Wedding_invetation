@@ -2,7 +2,7 @@
  * يستقبل ردود تأكيد الحضور ويحفظها في Google Sheets.
  * - ورقة "الردود": الاسم، الحالة، العدد، آخر تحديث
  * - ورقة "الملخص": المجاميع تلقائياً
- * إذا نفس الاسم أرسل مرة ثانية، يتحدث رده بدل ما يتكرر.
+ * إذا نفس الجوال أرسل مرة ثانية، يتحدث رده بدل ما يتكرر.
  */
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -17,17 +17,17 @@ function doPost(e) {
     const count = status !== 'معتذر' ? Math.max(1, Math.min(20, parseInt(p.count, 10) || 1)) : 0;
     if (!name) return ContentService.createTextOutput('missing name');
 
-    const row = [name, status, count, new Date()];
-    const key = normalize_(name);
+    const id = String(p.id || '').slice(0, 40);
+    const row = [name, status, count, new Date(), id];
     const last = sheet.getLastRow();
     let target = 0;
-    if (last > 1) {
-      const names = sheet.getRange(2, 1, last - 1, 1).getValues();
-      for (let i = 0; i < names.length; i++) {
-        if (normalize_(names[i][0]) === key) { target = i + 2; break; }
+    if (id && last > 1) {
+      const ids = sheet.getRange(2, 5, last - 1, 1).getValues();
+      for (let i = 0; i < ids.length; i++) {
+        if (ids[i][0] === id) { target = i + 2; break; }
       }
     }
-    if (target) sheet.getRange(target, 1, 1, 4).setValues([row]);
+    if (target) sheet.getRange(target, 1, 1, 5).setValues([row]);
     else sheet.appendRow(row);
 
     return ContentService.createTextOutput('ok');
@@ -36,19 +36,15 @@ function doPost(e) {
   }
 }
 
-function normalize_(s) {
-  return String(s).trim().replace(/\s+/g, ' ')
-    .replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي');
-}
-
 function getOrCreateSheets_(ss) {
   let sheet = ss.getSheetByName('الردود');
   if (!sheet) {
     sheet = ss.insertSheet('الردود');
     sheet.setRightToLeft(true);
-    sheet.appendRow(['الاسم', 'الحالة', 'عدد الحضور', 'آخر تحديث']);
-    sheet.getRange('A1:D1').setFontWeight('bold');
+    sheet.appendRow(['الاسم', 'الحالة', 'عدد الحضور', 'آخر تحديث', 'رقم الجهاز']);
+    sheet.getRange('A1:E1').setFontWeight('bold');
     sheet.setFrozenRows(1);
+    sheet.hideColumns(5);
   }
   if (!ss.getSheetByName('الملخص')) {
     const s = ss.insertSheet('الملخص', 0);
