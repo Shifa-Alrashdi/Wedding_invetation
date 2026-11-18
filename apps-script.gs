@@ -51,15 +51,16 @@ function getOrCreateSheets_(ss) {
   if (!ss.getSheetByName('الملخص')) {
     const s = ss.insertSheet('الملخص', 0);
     s.setRightToLeft(true);
-    s.getRange('A1:B6').setValues([
+    s.getRange('A1:B7').setValues([
       ['الحاضرين المؤكدين (أشخاص)', "=SUMIF('الردود'!B2:B,\"حاضر\",'الردود'!C2:C)"],
       ['ربما (أشخاص)', "=SUMIF('الردود'!B2:B,\"ربما\",'الردود'!C2:C)"],
       ['عدد ردود الحضور', "=COUNTIF('الردود'!B2:B,\"حاضر\")"],
       ['عدد ردود ربما', "=COUNTIF('الردود'!B2:B,\"ربما\")"],
       ['عدد المعتذرين', "=COUNTIF('الردود'!B2:B,\"معتذر\")"],
-      ['إجمالي الردود', "=COUNTA('الردود'!A2:A)"]
+      ['إجمالي الردود', "=COUNTA('الردود'!A2:A)"],
+      ['إجمالي الأشخاص (حاضر + ربما)', '=B1+B2']
     ]);
-    s.getRange('A1:A6').setFontWeight('bold');
+    s.getRange('A1:A7').setFontWeight('bold');
     s.getRange('B1').setFontSize(18).setFontWeight('bold');
     s.autoResizeColumn(1);
   }
