@@ -476,13 +476,7 @@ $("submit").onclick = async () => {
   }
 };
 
-// On phones, start slightly scrolled so the design sits under the status bar
-(function () {
-  try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (e) {}
-  if (!matchMedia("(pointer: coarse)").matches) return;
-  const nudge = () => { if (window.scrollY < 5) window.scrollTo(0, 50); };
-  window.addEventListener("load", () => { nudge(); setTimeout(nudge, 150); });
-})();
+
 
 // Page switching (phone back button returns to the invitation)
 function showPage(n) {
