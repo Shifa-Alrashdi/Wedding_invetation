@@ -19,7 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #4f3044;
+    --bg: #4f2f43;
     --card: #fbf4ec;
     --ink: #3b2534;
     --muted: #8a7180;
@@ -43,7 +43,7 @@
     min-height: 100vh;
     background-image: radial-gradient(ellipse at 50% 0%, #6a4459 0, transparent 60%);
   }
-  .wrap { max-width: 460px; margin: 0 auto; padding: 28px 16px 48px; }
+  .wrap { max-width: 460px; margin: 0 auto; padding: 0 0 40px; }
 
   .card {
     background: var(--card);
@@ -61,7 +61,7 @@
     border-radius: 20px;
     pointer-events: none;
   }
-  .design { display: block; width: 100%; height: auto; border-radius: 22px; box-shadow: 0 18px 50px -20px rgba(0,0,0,.6); }
+  .design { display: block; width: 100%; height: auto; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .invite {
     position: relative; aspect-ratio: 677 / 1207; container-type: inline-size;
@@ -124,7 +124,7 @@
   .note { font-size: 14px; color: var(--muted); margin: 18px 0 0; }
 
   /* RSVP */
-  .rsvp { margin-top: 18px; text-align: right; }
+  .rsvp { margin-top: 0; text-align: right; }
   .rsvp h2 { font-family: "Amiri", serif; font-size: 28px; text-align: center; margin: 0 0 4px; color: var(--ink); }
   .rsvp .sub { text-align: center; color: var(--muted); font-size: 14px; margin: 0 0 20px; }
   label.lbl { display: block; font-weight: 500; font-size: 15px; margin: 0 0 6px; }
@@ -173,19 +173,20 @@
   .done p { color: var(--muted); margin: 0; }
   .link { background: none; border: none; color: var(--gold); font: inherit; font-size: 14px; text-decoration: underline; cursor: pointer; margin-top: 14px; }
 
-  .sample-banner { margin-top: 0;
+  .sample-banner { margin: 0; border-radius: 0; border-width: 0 0 1px;
     background: #fff4d6; color: #7a5a12; border: 1px solid #f0dca6;
     border-radius: 12px; font-size: 13px; padding: 8px 12px; margin-bottom: 14px; text-align: center;
   }
 
   /* RSVP inside the arch frame */
-  .rsvp-wrap { container-type: inline-size; margin-top: 16px; }
+  .rsvp-wrap { container-type: inline-size; margin-top: -6%; position: relative; }
   .rsvp-frame {
     position: relative; aspect-ratio: 720 / 1280; text-align: right; color: #f6eadb;
     background: #5e3c50 url("assets/frame-rsvp.jpg") center / 100% 100% no-repeat;
-    border-radius: 22px; overflow: hidden;
-    box-shadow: 0 18px 50px -20px rgba(0,0,0,.6);
+    overflow: hidden;
   }
+  .rsvp-frame { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 96%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 96%, transparent 100%); }
+  .design { -webkit-mask-image: linear-gradient(to top, transparent 0, #000 3%); mask-image: linear-gradient(to top, transparent 0, #000 3%); }
   .rsvp-frame .frame-inner { position: absolute; top: 23.5%; bottom: 12%; left: 22%; right: 22%;
     display: flex; flex-direction: column; justify-content: center; }
   .rsvp-frame #formView[hidden] { display: none; }
