@@ -253,10 +253,8 @@
   .page { animation: pageIn .45s ease; }
   @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   .back-wrap { text-align: center; padding: 18px 16px 28px; }
-  #page1 { padding-bottom: 86px; }
-  .go-wrap { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; text-align: center;
-    padding: 10px 16px calc(40px + env(safe-area-inset-bottom));
-    background: linear-gradient(rgba(86,54,75,0), rgba(86,54,75,.85) 45%); }
+  #page1 { position: relative; }
+  .go-wrap { position: absolute; left: 0; right: 0; top: 92%; transform: translateY(-50%); text-align: center; z-index: 2; }
   .go {
     font: inherit; font-family: "Amiri", serif; font-weight: 700; font-size: 17px;
     background: #f6eadb; color: #4f3044; border: none; border-radius: 999px;
