@@ -482,6 +482,14 @@ $("submit").onclick = async () => {
 function showPage(n) {
   $("page1").hidden = n !== 1; $("page2").hidden = n !== 2;
   window.scrollTo(0, 0);
+  if (n === 2) {
+    // start a little scrolled so the form sits higher and the vase shows below
+    requestAnimationFrame(() => {
+      const f = document.querySelector(".rsvp-frame");
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      window.scrollTo({ top: Math.max(0, Math.min(f.offsetHeight * 0.1, max)), behavior: "smooth" });
+    });
+  }
 }
 $("goRsvp").onclick = () => { history.pushState({ p: 2 }, "", "#rsvp"); showPage(2); };
 $("backInvite").onclick = () => { if (location.hash === "#rsvp") history.back(); else showPage(1); };
