@@ -332,8 +332,6 @@
       <button class="link" id="again" type="button">تعديل الرد</button>
     </div>
 
-    <div class="done" id="otherView">
-      <div class="big">✦</div>
       <h3>سبق وأكدتوا ردكم</h3>
       <p>من دعوة <span id="otherSide"></span>، وما يحتاج تأكيد مرة ثانية</p>
       <button class="link" id="answerHere" type="button">الرد من هذي الدعوة بعد</button>
@@ -384,8 +382,8 @@ const CONFIG = {
 
 const $ = id => document.getElementById(id);
 // each link keeps its own saved answer (bride and groom links don't share)
-const PAGE_KEY = "/bride", OTHER_KEY = "rsvp2:/groom", OTHER_SIDE = "أهل العريس";
-const RSVP_KEY = "rsvp2:" + PAGE_KEY, GID_KEY = "gid2:" + PAGE_KEY;
+// bride and groom links share one saved answer, so a guest sees it on either link
+const RSVP_KEY = "rsvp3", GID_KEY = "gid3", ORIGIN_KEY = "rsvp3:origin";
 const ar = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
 
 // Fill invitation
@@ -453,23 +451,18 @@ function showDone(c, n) {
 // Remember previous answer on this phone
 try {
   const saved = JSON.parse(localStorage.getItem(RSVP_KEY) || "null");
-  const other = JSON.parse(localStorage.getItem(OTHER_KEY) || "null");
-  const skip = localStorage.getItem(RSVP_KEY + ":here") === "1";
   if (saved) showDone(saved.c, saved.n);
-  else if (other && !skip) {
-    $("otherSide").textContent = OTHER_SIDE;
-    $("formView").hidden = true; $("otherView").classList.add("show");
-  }
 } catch (e) {}
-$("answerHere").onclick = () => {
-  try { localStorage.setItem(RSVP_KEY + ":here", "1"); } catch (e) {}
-  $("otherView").classList.remove("show"); $("formView").hidden = false;
-};
 
 $("again").onclick = () => {
-  // forget the saved answer so a refresh shows the form; prefill what they chose before
+  // forget the saved answer so a refresh shows the form; prefill what they chose before.
+  // remember which family's sheet holds the answer, so the edit updates that same row.
   let prev = null;
-  try { prev = JSON.parse(localStorage.getItem(RSVP_KEY) || "null"); localStorage.removeItem(RSVP_KEY); } catch (e) {}
+  try {
+    prev = JSON.parse(localStorage.getItem(RSVP_KEY) || "null");
+    if (prev && prev.url) localStorage.setItem(ORIGIN_KEY, JSON.stringify({ url: prev.url, side: prev.side }));
+    localStorage.removeItem(RSVP_KEY);
+  } catch (e) {}
   if (prev) {
     if (prev.name) $("name").value = prev.name;
     const btn = document.querySelector('.choice[data-v="' + prev.c + '"]');
@@ -478,7 +471,6 @@ $("again").onclick = () => {
   }
   $("doneView").classList.remove("show"); $("formView").hidden = false;
 };
-
 
 // One random id per phone, so the same guest editing their answer updates one row
 function guestId() {
@@ -497,15 +489,22 @@ $("submit").onclick = async () => {
   if (!choice) { $("err").textContent = "فضلاً اختاري: بحضر أو ربما أو أعتذر"; return; }
   const n = choice === "no" ? 0 : (CONFIG.allowCount ? count : 1);
 
-  // show the thank-you straight away; save in the background
-  const body = new URLSearchParams({ id: guestId(), side: CONFIG.side || "", name, status: { yes: "حاضر", maybe: "ربما", no: "معتذر" }[choice], count: n });
-  try { localStorage.setItem(RSVP_KEY, JSON.stringify({ c: choice, n, name })); } catch (e) {}
+  // send to the family that holds this guest's answer (edit), otherwise to this link's family
+  let origin = null;
+  try { origin = JSON.parse(localStorage.getItem(ORIGIN_KEY) || "null"); } catch (e) {}
+  const url = (origin && origin.url) || CONFIG.scriptUrl;
+  const side = (origin && origin.side) || CONFIG.side || "";
+  const body = new URLSearchParams({ id: guestId(), side, name, status: { yes: "حاضر", maybe: "ربما", no: "معتذر" }[choice], count: n });
+  try {
+    localStorage.setItem(RSVP_KEY, JSON.stringify({ c: choice, n, name, url, side }));
+    localStorage.removeItem(ORIGIN_KEY);
+  } catch (e) {}
   showDone(choice, n);
-  if (CONFIG.scriptUrl) {
-    fetch(CONFIG.scriptUrl, { method: "POST", mode: "no-cors", keepalive: true, body })
+  if (url) {
+    fetch(url, { method: "POST", mode: "no-cors", keepalive: true, body })
       .catch(() => {
         // network failed: bring the form back so they can resend
-        try { localStorage.removeItem(RSVP_KEY); } catch (e) {}
+        try { localStorage.removeItem(RSVP_KEY); localStorage.setItem(ORIGIN_KEY, JSON.stringify({ url, side })); } catch (e) {}
         $("doneView").classList.remove("show"); $("formView").hidden = false;
         $("err").textContent = "ما وصل الرد، تأكدي من الإنترنت واضغطي إرسال مرة ثانية";
       });
