@@ -331,6 +331,13 @@
       <p id="doneText"></p>
       <button class="link" id="again" type="button">تعديل الرد</button>
     </div>
+
+    <div class="done" id="otherView">
+      <div class="big">✦</div>
+      <h3>سبق وأكدتوا ردكم</h3>
+      <p>من دعوة <span id="otherSide"></span>، وما يحتاج تأكيد مرة ثانية</p>
+      <button class="link" id="answerHere" type="button">الرد من هذي الدعوة بعد</button>
+    </div>
       <div class="extras" id="extras">
         <a class="btn-map" id="mapBtn" target="_blank" rel="noopener" style="margin-top:0">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
@@ -377,7 +384,7 @@ const CONFIG = {
 
 const $ = id => document.getElementById(id);
 // each link keeps its own saved answer (bride and groom links don't share)
-const PAGE_KEY = location.pathname.replace(/index\.html$/, "").replace(/\/+$/, "") || "/";
+const PAGE_KEY = "/bride", OTHER_KEY = "rsvp2:/groom", OTHER_SIDE = "أهل العريس";
 const RSVP_KEY = "rsvp2:" + PAGE_KEY, GID_KEY = "gid2:" + PAGE_KEY;
 const ar = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
 
@@ -446,8 +453,18 @@ function showDone(c, n) {
 // Remember previous answer on this phone
 try {
   const saved = JSON.parse(localStorage.getItem(RSVP_KEY) || "null");
+  const other = JSON.parse(localStorage.getItem(OTHER_KEY) || "null");
+  const skip = localStorage.getItem(RSVP_KEY + ":here") === "1";
   if (saved) showDone(saved.c, saved.n);
+  else if (other && !skip) {
+    $("otherSide").textContent = OTHER_SIDE;
+    $("formView").hidden = true; $("otherView").classList.add("show");
+  }
 } catch (e) {}
+$("answerHere").onclick = () => {
+  try { localStorage.setItem(RSVP_KEY + ":here", "1"); } catch (e) {}
+  $("otherView").classList.remove("show"); $("formView").hidden = false;
+};
 
 $("again").onclick = () => {
   // forget the saved answer so a refresh shows the form; prefill what they chose before
