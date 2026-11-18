@@ -2,6 +2,7 @@
  * يستقبل ردود تأكيد الحضور ويحفظها في Google Sheets.
  * - ورقة "الردود": الاسم، الحالة، العدد، الجهة، آخر تحديث
  * - ورقة "الملخص": المجاميع تلقائياً
+ * كل جهة (أهل العروس / أهل العريس) لها ملف منفصل ونسخة منفصلة من هذا الكود.
  * إذا نفس الجوال أرسل مرة ثانية، يتحدث رده بدل ما يتكرر.
  */
 function doPost(e) {
@@ -50,22 +51,16 @@ function getOrCreateSheets_(ss) {
   if (!ss.getSheetByName('الملخص')) {
     const s = ss.insertSheet('الملخص', 0);
     s.setRightToLeft(true);
-    const R = "'الردود'!";
-    s.getRange('A1:D1').setValues([['', 'أهل العروس', 'أهل العريس', 'المجموع']]);
-    const rows = [
-      ['الحاضرين المؤكدين (أشخاص)', 'SUMIFS(' + R + 'C2:C,' + R + 'B2:B,"حاضر",' + R + 'D2:D,"%s")', 'SUMIF(' + R + 'B2:B,"حاضر",' + R + 'C2:C)'],
-      ['"ربما" (أشخاص)', 'SUMIFS(' + R + 'C2:C,' + R + 'B2:B,"ربما",' + R + 'D2:D,"%s")', 'SUMIF(' + R + 'B2:B,"ربما",' + R + 'C2:C)'],
-      ['عدد ردود الحضور', 'COUNTIFS(' + R + 'B2:B,"حاضر",' + R + 'D2:D,"%s")', 'COUNTIF(' + R + 'B2:B,"حاضر")'],
-      ['عدد ردود ربما', 'COUNTIFS(' + R + 'B2:B,"ربما",' + R + 'D2:D,"%s")', 'COUNTIF(' + R + 'B2:B,"ربما")'],
-      ['عدد المعتذرين', 'COUNTIFS(' + R + 'B2:B,"معتذر",' + R + 'D2:D,"%s")', 'COUNTIF(' + R + 'B2:B,"معتذر")'],
-      ['إجمالي الردود', 'COUNTIFS(' + R + 'A2:A,"<>",' + R + 'D2:D,"%s")', 'COUNTA(' + R + 'A2:A)']
-    ];
-    s.getRange(2, 1, rows.length, 4).setValues(rows.map(r => [
-      r[0], '=' + r[1].replace('%s', 'أهل العروس'), '=' + r[1].replace('%s', 'أهل العريس'), '=' + r[2]
-    ]));
-    s.getRange('A1:D1').setFontWeight('bold');
-    s.getRange('A2:A7').setFontWeight('bold');
-    s.getRange('B2:D2').setFontSize(16).setFontWeight('bold');
+    s.getRange('A1:B6').setValues([
+      ['الحاضرين المؤكدين (أشخاص)', "=SUMIF('الردود'!B2:B,\"حاضر\",'الردود'!C2:C)"],
+      ['ربما (أشخاص)', "=SUMIF('الردود'!B2:B,\"ربما\",'الردود'!C2:C)"],
+      ['عدد ردود الحضور', "=COUNTIF('الردود'!B2:B,\"حاضر\")"],
+      ['عدد ردود ربما', "=COUNTIF('الردود'!B2:B,\"ربما\")"],
+      ['عدد المعتذرين', "=COUNTIF('الردود'!B2:B,\"معتذر\")"],
+      ['إجمالي الردود', "=COUNTA('الردود'!A2:A)"]
+    ]);
+    s.getRange('A1:A6').setFontWeight('bold');
+    s.getRange('B1').setFontSize(18).setFontWeight('bold');
     s.autoResizeColumn(1);
   }
   return sheet;
