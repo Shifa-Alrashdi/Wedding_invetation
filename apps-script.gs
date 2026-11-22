@@ -15,7 +15,7 @@ function doPost(e) {
     const p = e.parameter || {};
     const name = String(p.name || '').trim().slice(0, 100);
     const status = ['حاضر', 'ربما', 'معتذر'].indexOf(p.status) >= 0 ? p.status : 'معتذر';
-    const count = status !== 'معتذر' ? Math.max(1, Math.min(20, parseInt(p.count, 10) || 1)) : 0;
+    const count = status !== 'معتذر' ? Math.max(1, Math.min(50, parseInt(p.count, 10) || 1)) : 0;
     if (!name) return ContentService.createTextOutput('missing name');
 
     const id = String(p.id || '').slice(0, 40);
