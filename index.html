@@ -217,6 +217,8 @@
   .rsvp-frame .stepper { background: rgba(255,255,255,.08); border-color: rgba(246,234,219,.4); padding: 4px; }
   .rsvp-frame .stepper button { width: 7.5cqw; height: 7.5cqw; background: rgba(246,234,219,.15); color: #f6eadb; font-size: 20px; }
   .rsvp-frame .stepper output { color: #fff; font-size: 18px; }
+  .stepper #countOut { width: 5em; text-align: center; font: inherit; font-size: 18px; font-weight: 700; color: #fff; background: transparent; border: none; outline: none; padding: 4px 0; }
+  .stepper #countOut:focus { background: rgba(255,255,255,.08); border-radius: 8px; }
   .rsvp-frame .submit { background: #f6eadb; color: #4f3044; margin-top: 2.5cqw; padding: 2.2cqw; font-size: 4.2cqw; border-radius: 3.4cqw; }
   .rsvp-frame .err { color: #ffd6d6; font-size: 3.4cqw; min-height: 0; margin: 1cqw 0 0; }
   .rsvp-frame .err:empty { display: none; }
@@ -282,7 +284,7 @@
         <label class="lbl">عدد الحضور</label>
         <div class="stepper">
           <button type="button" id="plus" aria-label="زيادة">+</button>
-          <output id="countOut">1</output>
+          <input id="countOut" type="text" inputmode="numeric" autocomplete="off" value="1" aria-label="عدد الحضور">
           <button type="button" id="minus" aria-label="نقص">−</button>
         </div>
       </div>
@@ -383,7 +385,12 @@ document.querySelectorAll(".choice").forEach(b => b.addEventListener("click", ()
   $("countBox").classList.toggle("show", choice !== "no" && CONFIG.allowCount);
   $("err").textContent = "";
 }));
-const setCount = n => { count = Math.min(CONFIG.maxCount, Math.max(1, n)); $("countOut").textContent = ar(count); };
+const setCount = n => { count = Math.min(CONFIG.maxCount, Math.max(1, n || 1)); $("countOut").value = ar(count); };
+// guests can also type the number (Arabic or English digits)
+const readCount = () => parseInt(String($("countOut").value).replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[^0-9]/g, ""), 10);
+$("countOut").addEventListener("input", () => { const v = readCount(); if (v) count = Math.min(CONFIG.maxCount, v); });
+$("countOut").addEventListener("blur", () => setCount(readCount()));
+$("countOut").addEventListener("focus", () => $("countOut").select());
 $("plus").onclick = () => setCount(count + 1);
 $("minus").onclick = () => setCount(count - 1);
 setCount(1);
@@ -394,7 +401,7 @@ function showDone(c, n) {
   if (c === "yes") {
     $("doneEmoji").textContent = "✦";
     $("doneTitle").textContent = "بانتظاركم";
-    $("doneText").textContent = CONFIG.allowCount ? `تم تأكيد حضور ${ar(n)} ${n > 2 ? "أشخاص" : n === 2 ? "شخصين" : "شخص"}، يسعدنا وجودكم` : "تم تأكيد حضوركم، يسعدنا وجودكم";
+    $("doneText").textContent = CONFIG.allowCount ? `تم تأكيد حضور ${ar(n)} ${n > 10 ? "شخصاً" : n > 2 ? "أشخاص" : n === 2 ? "شخصين" : "شخص"}، يسعدنا وجودكم` : "تم تأكيد حضوركم، يسعدنا وجودكم";
   } else if (c === "maybe") {
     $("doneEmoji").textContent = "✦";
     $("doneTitle").textContent = "نتمنى نشوفكم";
