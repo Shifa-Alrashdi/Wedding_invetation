@@ -498,20 +498,33 @@ $("submit").onclick = async () => {
   const url = (origin && origin.url) || CONFIG.scriptUrl;
   const side = (origin && origin.side) || CONFIG.side || "";
   const body = new URLSearchParams({ id: guestId(), side, name, status: { yes: "حاضر", maybe: "ربما", no: "معتذر" }[choice], count: n });
+  // wait until the sheet confirms before showing the thank-you
+  const btn = $("submit");
+  btn.disabled = true; btn.textContent = "جاري الإرسال..."; $("err").textContent = "";
+  let ok = false;
+  if (url) {
+    const ctrl = new AbortController(); const timer = setTimeout(() => ctrl.abort(), 25000);
+    try {
+      const res = await fetch(url, { method: "POST", body, signal: ctrl.signal });
+      ok = res.ok && /ok/.test(await res.text());
+    } catch (e) {
+      // if the reply couldn't be read (browser restriction) but the network works, send again
+      // without reading it; the same device id just updates the same row, so nothing duplicates
+      if (!ctrl.signal.aborted) {
+        try { await fetch(url, { method: "POST", mode: "no-cors", body, signal: ctrl.signal }); ok = true; } catch (e2) {}
+      }
+    } finally { clearTimeout(timer); }
+  } else { ok = true; }
+  btn.disabled = false; btn.textContent = "إرسال";
+  if (!ok) {
+    $("err").textContent = "ما وصل الرد، تأكدي من الإنترنت واضغطي إرسال مرة ثانية";
+    return;
+  }
   try {
     localStorage.setItem(RSVP_KEY, JSON.stringify({ c: choice, n, name, url, side }));
     localStorage.removeItem(ORIGIN_KEY);
   } catch (e) {}
   showDone(choice, n);
-  if (url) {
-    fetch(url, { method: "POST", mode: "no-cors", keepalive: true, body })
-      .catch(() => {
-        // network failed: bring the form back so they can resend
-        try { localStorage.removeItem(RSVP_KEY); localStorage.setItem(ORIGIN_KEY, JSON.stringify({ url, side })); } catch (e) {}
-        $("doneView").classList.remove("show"); $("formView").hidden = false;
-        $("err").textContent = "ما وصل الرد، تأكدي من الإنترنت واضغطي إرسال مرة ثانية";
-      });
-  }
 };
 
 
